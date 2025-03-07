@@ -4,8 +4,8 @@ import reflex as rx
 from rxconfig import config
 
 from .ui.base import base_page
-from .pages import about, team
 
+from . import navigation, pages
 
 class State(rx.State):
     """The app state."""
@@ -48,5 +48,9 @@ def index() -> rx.Component:
 
 app = rx.App()
 app.add_page(index)
-app.add_page(about.about_page, route = '/about')
-app.add_page(team.team_page, route = '/team')
+app.add_page(pages.about_page, 
+             route = navigation.routes.ABOUT_ROUTE)
+app.add_page(pages.team_page, 
+             route = navigation.routes.TEAM_ROUTE)
+app.add_page(pages.contact_page, 
+             route = navigation.routes.CONTACT_ROUTE)
