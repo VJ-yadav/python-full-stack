@@ -18,14 +18,16 @@ def base_page(child: rx.Component, hide_navbar=False, *args, **kwargs) -> rx.Com
     print("Showing navbar")  # Debugging
     return rx.fragment(
         navbar(),
-        # sidebar_bottom_profile(),
-        rx.box(
+        rx.hstack(sidebar_bottom_profile(),
+            rx.box(
             child,
             id = "content-box",
             padding="1em",
             width="100%",
         ),
+        ),
         rx.logo(),
         rx.color_mode.button(position="bottom-left"),
-        id="my-base-container"
+        id="my-base-container",
+
     )
