@@ -52,6 +52,10 @@ app.add_page(pages.about_page,
 app.add_page(pages.team_page, 
              route = navigation.routes.TEAM_ROUTE)
 
+app.add_page(blog.blog_post_list_page, 
+             route = navigation.routes.BLOG_POSTS_ROUTE,
+             on_load = blog.BlogPostState.load_posts)
+
 app.add_page(contact.contact_page, 
              route = navigation.routes.CONTACT_ROUTE)
 app.add_page(

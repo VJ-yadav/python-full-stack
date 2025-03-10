@@ -9,5 +9,7 @@ class NavState(rx.State):
         return rx.redirect(routes.ABOUT_ROUTE)
     def to_team(self):
         return rx.redirect(routes.TEAM_ROUTE)
+    def to_blog(self):
+        return rx.redirect(routes.BLOG_POSTS_ROUTE)
     def to_contact(self):
         return rx.redirect(routes.CONTACT_ROUTE)

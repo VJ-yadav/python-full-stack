@@ -21,3 +21,5 @@ class ContactEntryModel(rx.Model, table = True):
         },
         nullable=False
         )
+    
+    #published_at
