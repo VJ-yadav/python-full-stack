@@ -2,10 +2,22 @@ import reflex as rx
 from ..ui.base import base_page
 import asyncio
 
+from sqlmodel import Field
+
+class ContactEntryModel(rx.Model, table = True):
+    first_name: str
+    middle_name: str = Field(nullable=True)
+    last_name: str 
+    email:str
+    message:str
+
+
+
+
 class ContactState(rx.State):
     form_data: dict = {}
     did_submit: bool = False
-    
+
 
     @rx.var
     def thankyou(self):
@@ -13,11 +25,27 @@ class ContactState(rx.State):
         return f"Thank you {first_name}".strip() + "!"
 
 
-    def handle_submit(self, form_data: dict):
+    async def handle_submit(self, form_data: dict):
         """Handle the form submit."""
         print(form_data)
         self.form_data = form_data
-        self.did_submit = True
+        data = {}
+        for k,v in form_data.items():
+            if v == '' or v is None:
+                continue
+            data[k] = v
+        with rx.session() as session:
+            db_entry = ContactEntryModel(
+                **data
+            )
+            session.add(db_entry)
+            session.commit()
+            self.did_submit = True
+            yield
+        await asyncio.sleep(2)
+        self.did_submit = False
+        yield
+
 
 def contact_page() -> rx.Component:
     # Welcome Page (Index)

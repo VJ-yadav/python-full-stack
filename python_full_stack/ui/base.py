@@ -3,19 +3,16 @@ from .nav import navbar
 from .sidebar import sidebar_bottom_profile
 
 def base_page(child: rx.Component, hide_navbar=False, *args, **kwargs) -> rx.Component:
-    print(f"hide_navbar: {hide_navbar}")  # Debugging
 
     if not isinstance(child, rx.Component):
         child = rx.heading("This is not a valid child element")
 
-        print("Hiding navbar")  # Debugging
         return rx.container(
             child,
             rx.logo(),
             rx.color_mode.button(position="bottom-left")
         )
 
-    print("Showing navbar")  # Debugging
     return rx.fragment(
         navbar(),
         rx.hstack(sidebar_bottom_profile(),
