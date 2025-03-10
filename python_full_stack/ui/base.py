@@ -15,7 +15,8 @@ def base_page(child: rx.Component, hide_navbar=False, *args, **kwargs) -> rx.Com
 
     return rx.fragment(
         navbar(),
-        rx.hstack(sidebar_bottom_profile(),
+        rx.hstack(
+            sidebar_bottom_profile(),
             rx.box(
             child,
             id = "content-box",
