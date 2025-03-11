@@ -1,5 +1,5 @@
 import reflex as rx
-
+import reflex_local_auth
 
 from rxconfig import config
 from .ui.base import base_page
@@ -50,6 +50,29 @@ app.add_page(index)
 
 app.add_page(pages.about_page, 
              route = navigation.routes.ABOUT_ROUTE)
+
+
+# reflex_local_auth pages
+app.add_page(
+    # my_login_page,
+    reflex_local_auth.pages.login_page,
+    route=reflex_local_auth.routes.LOGIN_ROUTE,
+    title="Login",
+)
+app.add_page(
+    # my_register_page,
+    reflex_local_auth.pages.register_page,
+    route=reflex_local_auth.routes.REGISTER_ROUTE,
+    title="Register",
+)
+
+# app.add_page(
+#     # my_logout_page,
+#     reflex_local_auth.pages.
+#     route=navigation.routes.LOGOUT_ROUTE,
+#     title="Logout",
+# )
+
 
 app.add_page(pages.team_page, 
              route = navigation.routes.TEAM_ROUTE)
