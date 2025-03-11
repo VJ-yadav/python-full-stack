@@ -39,7 +39,9 @@ class BlogPostState(rx.State):
                 return 
             result = session.exec(
                 select(BlogPostModel).where(
-                    BlogPostModel.id == self.blog_post_id)
+                    (BlogPostModel.id == self.blog_post_id) &
+                    (BlogPostModel.publish_active == True)
+                ),
             ).one_or_none()
             self.post = result 
             if result is None:
@@ -49,10 +51,18 @@ class BlogPostState(rx.State):
             self.post_publish_active = self.post.publish_active
     
 
-    def load_posts(self):
+    def load_posts(self, published_only = False):
+        lookup_args = ()
+        if published_only:
+            lookup_args(
+                (BlogPostModel.publish_active == True) &
+                (BlogPostModel.publish_date < datetime.now())
+            )
         with rx.session() as session:
             result = session.exec(
-                select(BlogPostModel)
+                select(BlogPostModel).where(
+                    *lookup_args
+                )
             ).all()
             self.posts = result
 
@@ -131,12 +141,11 @@ class BlogEditFormState(BlogPostState):
         self.form_data = form_data
         post_id = form_data.pop('post_id')
         publish_date = None
-        if publish_date is None:
+        if 'publish_date' is None:
             publish_date = form_data.pop('publish_date')
         publish_time = None
-        if publish_time is None:
+        if 'publish_time' is None:
             publish_time = form_data.pop('publish_time')
-        print(publish_date, publish_time)
         publish_input_string = f"{publish_date} {publish_time}"
         final_publish_date = None
         try:
