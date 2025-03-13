@@ -152,7 +152,7 @@ def sidebar() -> rx.Component:
                         border_radius="25%",
                     ),
                     rx.heading(
-                        "Reflex", size="7", weight="bold"
+                        "Student Succeed", size="7", weight="bold"
                     ),
                     align="center",
                     justify="start",

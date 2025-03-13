@@ -26,7 +26,7 @@ def navbar() -> rx.Component:
                     ),
                     rx.link(
                         rx.heading(
-                            "Reflex", size="7", weight="bold"
+                            "Student Succeed", size="7", weight="bold"
                         ),
                         href=navigation.routes.HOME_ROUTE
                     ),
@@ -75,7 +75,7 @@ def navbar() -> rx.Component:
                         border_radius="25%",
                     ),
                     rx.heading(
-                        "Reflex", size="6", weight="bold"
+                        "Student Succeed", size="6", weight="bold"
                     ),
                     align_items="center",
                 ),
