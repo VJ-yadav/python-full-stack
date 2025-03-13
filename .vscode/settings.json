@@ -1,4 +1,4 @@
 {
   "cSpell.words": ["contactentrymodel", "hstack", "sqlalchemy", "sqlmodel"],
-  "python.defaultInterpreterPath": "/usr/local/bin/python3*"
+  "python.defaultInterpreterPath": "python3"
 }
