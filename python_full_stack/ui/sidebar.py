@@ -1,4 +1,105 @@
-import reflex as rx
+import reflex as rx 
+from reflex.style import toggle_color_mode
+
+from ..auth.state import SessionState
+from .. import navigation 
+
+def sidebar_user_item() -> rx.Component:
+    user_info_obj = SessionState.authenticated_user_info
+    username_via_user_obj = rx.cond(SessionState.authenticated_username, SessionState.authenticated_username, "Account")
+    return rx.cond(
+        user_info_obj,
+        rx.hstack(
+            rx.icon_button(
+                rx.icon("user"),
+                size="3",
+                radius="full",
+            ),
+            rx.vstack(
+                rx.box(
+                    rx.text(
+                        username_via_user_obj,
+                        size="3",
+                        weight="bold",
+                    ),
+                    rx.text(
+                        f"{user_info_obj.email}",
+                        size="2",
+                        weight="medium",
+                    ),
+                    width="100%",
+                ),
+                spacing="0",
+                align="start",
+                justify="start",
+                width="100%",
+            ),
+            padding_x="0.5rem",
+            align="center",
+            justify="start",
+            width="100%",
+        ),
+        rx.fragment("")
+    )
+
+def sidebar_logout_item() -> rx.Component:
+    return rx.box(
+        rx.hstack(
+            rx.icon("log-out"),
+            rx.text("Logout", size="4"),
+            width="100%",
+            padding_x="0.5rem",
+            padding_y="0.75rem",
+            align="center",
+            style={
+                "_hover": {
+                    "cursor": "pointer", # css
+                    "bg": rx.color("accent", 4),
+                    "color": rx.color("accent", 11),
+                },
+                "color": rx.color("accent", 11),
+                "border-radius": "0.5em",
+            },
+        ),
+        on_click=navigation.NavState.to_logout,
+        as_='button',
+        underline="none",
+        weight="medium",
+        width="100%",
+    )
+
+def sidebar_dark_mode_toggle_item() -> rx.Component:
+    return rx.box(
+        rx.hstack(
+            rx.color_mode_cond(
+                light=rx.icon("moon"),
+                dark=rx.icon("sun"),
+            ),
+            rx.text(rx.color_mode_cond(
+                light="Turn dark mode on",
+                dark="Turn light mode on",
+            ), size="4"),
+            width="100%",
+            padding_x="0.5rem",
+            padding_y="0.75rem",
+            align="center",
+            style={
+                "_hover": {
+                    "cursor": "pointer", # css
+                    "bg": rx.color("accent", 4),
+                    "color": rx.color("accent", 11),
+                },
+                "color": rx.color("accent", 11),
+                "border-radius": "0.5em",
+            },
+        ),
+        on_click=toggle_color_mode,
+        as_='button',
+        underline="none",
+        weight="medium",
+        width="100%",
+    )
+
 
 def sidebar_item(
     text: str, icon: str, href: str
@@ -28,63 +129,47 @@ def sidebar_item(
 
 def sidebar_items() -> rx.Component:
     return rx.vstack(
-        sidebar_item("Dashboard", "layout-dashboard", "/#"),
-        sidebar_item("Projects", "square-library", "/#"),
-        sidebar_item("Analytics", "bar-chart-4", "/#"),
-        sidebar_item("Messages", "mail", "/#"),
+        sidebar_item("Dashboard", "layout-dashboard", navigation.routes.HOME_ROUTE),
+        sidebar_item("Articles", "globe", navigation.routes.ARTICLE_LIST_ROUTE),
+        sidebar_item("Blog", "newspaper", navigation.routes.BLOG_POSTS_ROUTE),
+        sidebar_item("Create post", "notebook-pen", navigation.routes.BLOG_POST_ADD_ROUTE),
+        sidebar_item("Contact", "mail", navigation.routes.CONTACT_US_ROUTE),
+        sidebar_item("Contact History", "mailbox", navigation.routes.CONTACT_ENTRIES_ROUTE),
         spacing="1",
         width="100%",
     )
 
 
-def sidebar_bottom_profile() -> rx.Component:
+def sidebar() -> rx.Component:
     return rx.box(
         rx.desktop_only(
             rx.vstack(
+                rx.hstack(
+                    rx.image(
+                        src="/logo.jpg",
+                        width="2.25em",
+                        height="auto",
+                        border_radius="25%",
+                    ),
+                    rx.heading(
+                        "Reflex", size="7", weight="bold"
+                    ),
+                    align="center",
+                    justify="start",
+                    padding_x="0.5rem",
+                    width="100%",
+                ),
                 sidebar_items(),
                 rx.spacer(),
                 rx.vstack(
                     rx.vstack(
-                        sidebar_item(
-                            "Settings", "settings", "/#"
-                        ),
-                        sidebar_item(
-                            "Log out", "log-out", "/#"
-                        ),
+                        sidebar_dark_mode_toggle_item(),
+                        sidebar_logout_item(),
                         spacing="1",
                         width="100%",
                     ),
                     rx.divider(),
-                    rx.hstack(
-                        rx.icon_button(
-                            rx.icon("user"),
-                            size="3",
-                            radius="full",
-                        ),
-                        rx.vstack(
-                            rx.box(
-                                rx.text(
-                                    "My account",
-                                    size="3",
-                                    weight="bold",
-                                ),
-                                rx.text(
-                                    "user@reflex.dev",
-                                    size="2",
-                                    weight="medium",
-                                ),
-                                width="100%",
-                            ),
-                            spacing="0",
-                            align="start",
-                            justify="start",
-                            width="100%",
-                        ),
-                        padding_x="0.5rem",
-                        align="center",
-                        justify="start",
-                        width="100%",
-                    ),
+                    sidebar_user_item(),
                     width="100%",
                     spacing="5",
                 ),
@@ -97,8 +182,8 @@ def sidebar_bottom_profile() -> rx.Component:
                 padding_y="1.5em",
                 bg=rx.color("accent", 3),
                 align="start",
-                # height="100%",
-                height="650px",
+                height="100vh",
+                # height="650px",
                 width="16em",
             ),
         ),
@@ -121,49 +206,13 @@ def sidebar_bottom_profile() -> rx.Component:
                             rx.spacer(),
                             rx.vstack(
                                 rx.vstack(
-                                    sidebar_item(
-                                        "Settings",
-                                        "settings",
-                                        "/#",
-                                    ),
-                                    sidebar_item(
-                                        "Log out",
-                                        "log-out",
-                                        "/#",
-                                    ),
+                                    sidebar_dark_mode_toggle_item(),
+                                    sidebar_logout_item(),
                                     width="100%",
                                     spacing="1",
                                 ),
                                 rx.divider(margin="0"),
-                                rx.hstack(
-                                    rx.icon_button(
-                                        rx.icon("user"),
-                                        size="3",
-                                        radius="full",
-                                    ),
-                                    rx.vstack(
-                                        rx.box(
-                                            rx.text(
-                                                "My account",
-                                                size="3",
-                                                weight="bold",
-                                            ),
-                                            rx.text(
-                                                "user@reflex.dev",
-                                                size="2",
-                                                weight="medium",
-                                            ),
-                                            width="100%",
-                                        ),
-                                        spacing="0",
-                                        justify="start",
-                                        width="100%",
-                                    ),
-                                    padding_x="0.5rem",
-                                    align="center",
-                                    justify="start",
-                                    width="100%",
-                                ),
+                                sidebar_user_item(),
                                 width="100%",
                                 spacing="5",
                             ),

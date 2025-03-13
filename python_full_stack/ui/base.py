@@ -1,31 +1,30 @@
 import reflex as rx
+
+from ..auth.state import SessionState
 from .nav import navbar
-from .sidebar import sidebar_bottom_profile
+from .dashboard import base_dashboard_page
 
-def base_page(child: rx.Component, hide_navbar=False, *args, **kwargs) -> rx.Component:
-
-    if not isinstance(child, rx.Component):
-        child = rx.heading("This is not a valid child element")
-
-        return rx.container(
-            child,
-            rx.logo(),
-            rx.color_mode.button(position="bottom-left")
-        )
-
-    return rx.fragment(
+def base_layout_component(child, *args, **kwargs) -> rx.Component:
+    return rx.fragment( # renders nada
         navbar(),
-        rx.hstack(
-            sidebar_bottom_profile(),
-            rx.box(
+        rx.box(
             child,
-            id = "content-box",
+            # bg=rx.color("accent", 3),
             padding="1em",
             width="100%",
-        ),
+            id="my-content-area-el"
         ),
         rx.logo(),
         rx.color_mode.button(position="bottom-left"),
-        id="my-base-container",
+        # padding='10em',
+        # id="my-base-container"
+    )
 
+def base_page(child: rx.Component, *args, **kwargs) -> rx.Component:
+    if not isinstance(child,rx. Component):
+        child = rx.heading("this is not a valid child element")
+    return rx.cond(
+        SessionState.is_authenticated,
+        base_dashboard_page(child, *args, **kwargs),
+        base_layout_component(child, *args, **kwargs ),
     )
