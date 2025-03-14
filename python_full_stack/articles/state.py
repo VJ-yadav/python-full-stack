@@ -16,7 +16,7 @@ if ARTICLE_LIST_ROUTE.endswith("/"):
 class ArticlePublicState(SessionState):
     posts: List['BlogPostModel'] = []
     post: Optional['BlogPostModel'] = None
-    post_content: str = ""
+    post_content: Optional[str] = str("")
     post_publish_active: bool = False
     limit: int = 20
 

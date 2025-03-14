@@ -16,11 +16,11 @@ if BLOG_POSTS_ROUTE.endswith("/"):
 class BlogPostState(SessionState):
     posts: List['BlogPostModel'] = []
     post: Optional['BlogPostModel'] = None
-    post_content: str = ""
+    post_content: Optional[str] = ""
     post_publish_active: bool = False
 
     @rx.var
-    def blog_post_id(self) -> str:
+    def blog_post_id(self) -> Optional[str]:
         return self.router.page.params.get("blog_id", "")
 
     @rx.var
@@ -128,7 +128,6 @@ class BlogAddPostFormState(BlogPostState):
 
 class BlogEditFormState(BlogPostState):
     form_data: dict = {}
-    # post_content: str = ""
 
     @rx.var
     def publish_display_date(self) -> str:
