@@ -5,5 +5,5 @@ I am starting to build a python web app using Reflex
 
 ### Under Development
 
-https://python-full-stack-lime-grass.reflex.run/login/
+https://python-full-stack-lime-grass.reflex.run
 
