@@ -11,7 +11,6 @@ from .notfound import blog_post_not_found
 @reflex_local_auth.require_login
 def blog_post_edit_page() -> rx.Component:
     my_form = forms.blog_post_edit_form()
-    print(my_form)
     post = BlogEditFormState.post
     my_child = rx.cond(post, 
             rx.vstack(

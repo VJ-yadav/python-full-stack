@@ -15,15 +15,12 @@ def navbar() -> rx.Component:
         rx.desktop_only(
             rx.hstack(
                 rx.hstack(
-                    rx.link(
-                        rx.image(
-                            src="/logo.jpg",
-                            width="2.25em",
-                            height="auto",
-                            border_radius="25%",
-                        ),
-                        href=navigation.routes.HOME_ROUTE
-                    ),
+                    # rx.link(
+                    #     rx.flex(
+                    #         rx.avatar(fallback="VJ", size="4"),
+                    #     ),
+                    #     href=navigation.routes.HOME_ROUTE
+                    # ),
                     rx.link(
                         rx.heading(
                             "Student Succeed", size="7", weight="bold"
