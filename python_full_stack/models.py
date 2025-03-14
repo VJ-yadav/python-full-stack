@@ -39,7 +39,6 @@ class UserInfo(rx.Model, table=True):
 
 
 class BlogPostModel(rx.Model, table=True):
-    # user
     # id: int -> primary key
     userinfo_id: int = Field(default=None, foreign_key="userinfo.id")
     userinfo: Optional['UserInfo'] = Relationship(back_populates="posts")

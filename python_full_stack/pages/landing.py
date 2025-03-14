@@ -22,3 +22,5 @@ def landing_component() -> rx.Component:
             min_height="85vh",
             id='my-child'
         )
+
+
