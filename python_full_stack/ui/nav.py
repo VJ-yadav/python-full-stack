@@ -15,12 +15,12 @@ def navbar() -> rx.Component:
         rx.desktop_only(
             rx.hstack(
                 rx.hstack(
-                    # rx.link(
-                    #     rx.flex(
-                    #         rx.avatar(fallback="VJ", size="4"),
-                    #     ),
-                    #     href=navigation.routes.HOME_ROUTE
-                    # ),
+                    rx.link(
+                        rx.flex(
+                            rx.avatar(fallback="SS", size="4"), #for image, just make a logo  of SS later
+                        ),
+                        href=navigation.routes.HOME_ROUTE
+                    ),
                     rx.link(
                         rx.heading(
                             "Student Succeed", size="7", weight="bold"
@@ -33,8 +33,8 @@ def navbar() -> rx.Component:
                     navbar_link("Home", navigation.routes.HOME_ROUTE),
                     navbar_link("About", navigation.routes.ABOUT_ROUTE),
                     navbar_link("Articles", navigation.routes.ARTICLE_LIST_ROUTE),
-                    navbar_link("Pricing", navigation.routes.PRICING_ROUTE),
-                    navbar_link("Contact", navigation.routes.CONTACT_US_ROUTE),
+                    navbar_link("Schedule TopMate", navigation.routes.PRICING_ROUTE),
+                    navbar_link("Contact Us", navigation.routes.CONTACT_US_ROUTE),
                     spacing="5",
                 ),
                 rx.hstack(
@@ -64,12 +64,11 @@ def navbar() -> rx.Component:
         ),
         rx.mobile_and_tablet(
             rx.hstack(
-                rx.hstack(
-                    rx.image(
-                        src="/logo.jpg",
-                        width="2em",
-                        height="auto",
-                        border_radius="25%",
+                rx.hstack(rx.link(
+                        rx.flex(
+                            rx.avatar(fallback="SS", size="4"), #for image, just make a logo  of SS later
+                        ),
+                        href=navigation.routes.HOME_ROUTE
                     ),
                     rx.heading(
                         "Student Succeed", size="6", weight="bold"
@@ -87,9 +86,9 @@ def navbar() -> rx.Component:
                             on_click=navigation.NavState.to_about_us),
                         rx.menu.item("Articles", 
                             on_click=navigation.NavState.to_articles),
-                        rx.menu.item("Pricing", 
+                        rx.menu.item("Schedule TopMate", 
                             on_click=navigation.NavState.to_pricing),
-                        rx.menu.item("Contact", 
+                        rx.menu.item("Contact Us", 
                             on_click=navigation.NavState.to_contact),
                         rx.menu.separator(),
                         rx.menu.item("Log in", 
@@ -103,11 +102,8 @@ def navbar() -> rx.Component:
                 align_items="center",
             ),
         ),
-        bg=rx.color("accent", 3),
+        bg=rx.color("jade", 7),
         padding="1em",
-        # position="fixed",
-        # top="0px",
-        # z_index="5",
         width="100%",
         id='my-main-nav',
     )

@@ -145,16 +145,13 @@ def sidebar() -> rx.Component:
         rx.desktop_only(
             rx.vstack(
                 rx.hstack(
-                    rx.image(
-                        src="/logo.jpg",
-                        width="2.25em",
-                        height="auto",
-                        border_radius="25%",
-                    ),
+                    rx.flex(
+                            rx.avatar(fallback="SS", size="5"), #for image, just make a logo  of SS later
+                        ),
                     rx.heading(
                         "Student Succeed", size="7", weight="bold"
                     ),
-                    align="center",
+                    align="start",
                     justify="start",
                     padding_x="0.5rem",
                     width="100%",
