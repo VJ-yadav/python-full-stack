@@ -16,7 +16,7 @@ if BLOG_POSTS_ROUTE.endswith("/"):
 class BlogPostState(SessionState):
     posts: List['BlogPostModel'] = []
     post: Optional['BlogPostModel'] = None
-    post_content: Optional[str] = ""
+    post_content: Optional[str] = str("")
     post_publish_active: bool = False
 
     @rx.var
@@ -53,24 +53,14 @@ class BlogPostState(SessionState):
                 sqlalchemy.orm.joinedload(BlogPostModel.userinfo).joinedload(UserInfo.user)
             ).where(lookups)
             result = session.exec(sql_statement).one_or_none()
-            # if result.userinfo: # db lookup
-            #     print('working')
-            #     result.userinfo.user # db lookup
             self.post = result
             if result is None:
                 self.post_content = ""
                 return
             self.post_content = self.post.content
             self.post_publish_active = self.post.publish_active
-        # return
-
 
     def load_posts(self, *args, **kwargs):
-        # if published_only:
-        #     lookup_args = ( 
-        #         (BlogPostModel.publish_active == True) &
-        #         (BlogPostModel.publish_date < datetime.now())
-        #     )
         with rx.session() as session:
             result = session.exec(
                 select(BlogPostModel).options(
@@ -78,16 +68,13 @@ class BlogPostState(SessionState):
                 ).where(BlogPostModel.userinfo_id == self.my_userinfo_id)
             ).all()
             self.posts = result
-        # return
 
     def add_post(self, form_data:dict):
         with rx.session() as session:
             post = BlogPostModel(**form_data)
-            # print("adding", post)
             session.add(post)
             session.commit()
             session.refresh(post) # post.id
-            # print("added", post)
             self.post = post
 
     def save_post_edits(self, post_id:int, updated_data:dict):

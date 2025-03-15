@@ -35,7 +35,7 @@ app = rx.App(
         panel_background="solid",
         scaling="90%",
         radius="medium", 
-        accent_color="gray",
+        accent_color="sky"
     ),
 
 )
